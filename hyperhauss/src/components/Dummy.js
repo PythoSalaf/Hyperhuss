@@ -57,3 +57,61 @@ export const WhyJoin = [
       "Friendly competition, seasonal challenges, and leaderboards keep the experience lively.",
   },
 ];
+
+export const GuildData = [
+  {
+    id: 1,
+    title: "Identity Group",
+    description:
+      "this is a group where where we bothe share both profit and loss",
+    amount: "0.02",
+    members: "6",
+  },
+  {
+    id: 2,
+    title: "Infinity Group",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe harum asperiores consequuntur. Ratione ipsum adipisci vero errorvoluptate repudiandae in cumque, labore ex consequatur molestias? Quas nihil itaque nam eius!",
+    amount: "0.06",
+    members: "9",
+  },
+  {
+    id: 3,
+    title: "Identity Group",
+    description:
+      "this is a group where where we bothe share both profit and loss",
+    amount: "0.02",
+    members: "6",
+  },
+  {
+    id: 4,
+    title: "Identity Group",
+    description: "this is a group where where we ",
+    amount: "0.02",
+    members: "6",
+  },
+  {
+    id: 5,
+    title: "Identity Group",
+    description:
+      "this is a group where where we bothe share both profit and loss",
+    amount: "0.02",
+    members: "6",
+  },
+  {
+    id: 6,
+    title: "Identity Group",
+    description:
+      "this is a group where where we bothe share both profit and loss",
+    amount: "0.02",
+    members: "6",
+  },
+  {
+    id: 7,
+    title: "Identity Group",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe harum asperiores consequuntur. Ratione ipsum adipisci vero errorvoluptate repudiandae in cumque, labore ex consequatur molestias? Quas nihil itaque nam eius!",
+    amount: "0.02",
+    members: "6",
+  },
+];

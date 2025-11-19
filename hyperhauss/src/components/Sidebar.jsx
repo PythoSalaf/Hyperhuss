@@ -1,4 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
+import { AiFillProduct } from "react-icons/ai";
+import { FaAward, FaChartLine } from "react-icons/fa6";
+import { MdDashboard } from "react-icons/md";
+import { IoGiftSharp } from "react-icons/io5";
+import { PiSwapBold } from "react-icons/pi";
 
 const Sidebar = () => {
   const active =
@@ -9,28 +14,54 @@ const Sidebar = () => {
     <div className="w-full py-1.5 border-r border-r-[#dadada] h-screen">
       <div className="w-[80%] mx-auto">
         <Link to="/">
-          <h2 className="md:text-2xl lg:text-3xl font-bold">HyperHaus</h2>
+          <h2 className="md:text-2xl lg:text-3xl font-semibold">HyperHaus</h2>
         </Link>
 
-        <div className="w-full mt-20 flex flex-col gap-y-6">
+        <div className="w-full mt-20 flex flex-col gap-y-4">
           <NavLink
             className={({ isActive }) => `${isActive ? active : inactive}`}
           >
-            <div className="bg-black w-4 h-4"></div>
+            <AiFillProduct className="w-5 h-5" />
             Guilds
           </NavLink>
           <NavLink
-            to="/"
+            to="/guilds/trade"
             className={({ isActive }) => `${isActive ? active : inactive}`}
           >
+            <FaChartLine className="w-5 h-5" />
             Trade
           </NavLink>
-          <NavLink>Leaderboards</NavLink>
-          <NavLink>Reward</NavLink>
-          <NavLink>Swap</NavLink>
-          <NavLink>Dashboard</NavLink>
+          <NavLink
+            to="/guilds/dashboard"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
+            <MdDashboard />
+            Dashboard
+          </NavLink>
+
+          <NavLink
+            to="/guilds/reward"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
+            <IoGiftSharp />
+            Reward
+          </NavLink>
+          <NavLink
+            to="/guilds/swap"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
+            <PiSwapBold />
+            Swap
+          </NavLink>
+          <NavLink
+            to="/guilds/leaderboard"
+            className={({ isActive }) => `${isActive ? active : inactive}`}
+          >
+            <FaAward className="h-6 w-6" />
+            Leaderboard
+          </NavLink>
         </div>
-        <div className="mt-22">
+        <div className="mt-16">
           <div className="w-full bg-white text-black py-1.5 rounded-3xl shadow flex items-center justify-center">
             <p className="font-semibold md:text-sm lg:text-base">
               0x8438.....09383

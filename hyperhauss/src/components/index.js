@@ -3,4 +3,6 @@ export { default as Footer } from "./Footer";
 export { default as Sidebar } from "./Sidebar";
 export { default as Topbar } from "./Topbar";
 export { default as GuildCard } from "./GuildCard";
+export { default as Modal } from "./Modal";
+export { default as CreateGuild } from "./CreateGuild";
 export { default as PageNotFound } from "./PageNotFound";
