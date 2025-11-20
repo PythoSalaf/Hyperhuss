@@ -19,6 +19,8 @@ const Sidebar = () => {
 
         <div className="w-full mt-20 flex flex-col gap-y-4">
           <NavLink
+            to="/guilds"
+            end
             className={({ isActive }) => `${isActive ? active : inactive}`}
           >
             <AiFillProduct className="w-5 h-5" />

@@ -48,7 +48,7 @@ const CreateGuild = ({ onClose }) => {
           className="border border-white rounded-xl py-1 md:py-2 w-full px-3 outline-0 placeholder:text-white placeholder:text-sm placeholder:font-semibold"
         />
         <textarea
-          className="resize-none w-full rounded-xl border border-white h-14 md:h-20 px-2 md:px-4 py-1 md:py-2"
+          className="resize-none w-full rounded-xl border border-white h-14 md:h-20 px-2 md:px-4 py-1 md:py-2 placeholder:text-white"
           placeholder="Guild Description"
         ></textarea>
       </div>

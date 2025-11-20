@@ -1,10 +1,11 @@
+import { GuildPerformance } from "../components";
 
 const Dashboard = () => {
   return (
-    <div>
-        <h2 className="">Dashboard</h2>
+    <div className="w-full">
+      <GuildPerformance />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

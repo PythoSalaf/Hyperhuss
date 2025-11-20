@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { CreateGuild, GuildCard, Modal } from "../components";
+import { CreateGuild, GuildCard, Modal, SlideText } from "../components";
 import { GuildData } from "../components/Dummy";
 
 const Guilds = () => {
@@ -18,7 +18,11 @@ const Guilds = () => {
           Create Guild
         </button>
       </div>
-      <div className="my-5 border-2 border-dotted py-6 rounded-xl"></div>
+      <div className="w-full my-5 border-2 border-dotted py-0.5 rounded-xl">
+        <div className="w-[95%] mx-auto">
+          <SlideText />
+        </div>
+      </div>
       <div className="">
         <h2 className="text-xl md:text-2xl font-semibold">Trending Guilds</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-7 gap-6">

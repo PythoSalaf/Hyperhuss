@@ -1,5 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { GuildLayout, Guilds, Home, LandingLayout } from "./pages";
+import {
+  Dashboard,
+  GuildLayout,
+  Guilds,
+  Home,
+  LandingLayout,
+  Trade,
+} from "./pages";
 import { PageNotFound } from "./components";
 
 const routes = [
@@ -20,6 +27,14 @@ const routes = [
       {
         index: true,
         element: <Guilds />,
+      },
+      {
+        path: "/guilds/trade",
+        element: <Trade />,
+      },
+      {
+        path: "/guilds/dashboard",
+        element: <Dashboard />,
       },
     ],
   },
