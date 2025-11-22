@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Chat } from "../components";
+import { Chat, Modal, ProposeTradeModal, TopUpStakeModal } from "../components";
 
 const GuildDetails = () => {
   const [join, setJoin] = useState(false);
+  const [openProposeModal, setOpenProposeModal] = useState(false);
+  const [openTopupModal, setOpenTopupModal] = useState(false);
   return (
     <div className="w-full">
       <h2 className="text-xl md:text-2xl font-semibold">Guild Details</h2>
@@ -232,6 +234,19 @@ const GuildDetails = () => {
             <Chat />
           </div>
         </div>
+      </div>
+      <div className="">
+        <Modal
+          isOpen={openProposeModal}
+          onClose={() => setOpenProposeModal(false)}
+        >
+          <ProposeTradeModal onClose={() => setOpenProposeModal(false)} />
+        </Modal>
+      </div>
+      <div className="">
+        <Modal isOpen={openTopupModal} onClose={() => setOpenTopupModal(false)}>
+          <TopUpStakeModal onClose={() => setOpenTopupModal(false)} />
+        </Modal>
       </div>
     </div>
   );

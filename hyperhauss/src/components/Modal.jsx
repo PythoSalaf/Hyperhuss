@@ -39,7 +39,7 @@ export default function Modal({ isOpen, onClose, children }) {
             animate="visible"
             exit="exit"
           >
-            <div className="bg-black border border-white dark:bg-gray-900 px-4 md:px-6 py-2 md:py-4 rounded-lg md:rounded-2xl shadow-2xl w-full max-w-lg">
+            <div className="bg-black border border-white dark:bg-gray-900 px-4 md:px-6 py-2 md:py-4 rounded-lg md:rounded-2xl shadow-2xl w-full max-w-md">
               {children}
             </div>
           </motion.div>
