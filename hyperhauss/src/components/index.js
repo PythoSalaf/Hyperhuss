@@ -6,6 +6,8 @@ export { default as GuildCard } from "./GuildCard";
 export { default as Modal } from "./Modal";
 export { default as SlideText } from "./SlideText";
 export { default as Chart } from "./Chart";
+export { default as Chat } from "./Chat";
 export { default as CreateGuild } from "./CreateGuild";
 export { default as GuildPerformance } from "./GuildPerformance";
+export { default as PercentageRange } from "./PercentageRange";
 export { default as PageNotFound } from "./PageNotFound";

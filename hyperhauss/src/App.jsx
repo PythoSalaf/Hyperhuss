@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
   Dashboard,
+  GuildDetails,
   GuildLayout,
   Guilds,
   Home,
@@ -27,6 +28,10 @@ const routes = [
       {
         index: true,
         element: <Guilds />,
+      },
+      {
+        path: "/guilds/:id",
+        element: <GuildDetails />,
       },
       {
         path: "/guilds/trade",

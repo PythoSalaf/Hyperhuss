@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const GuildCard = ({ id, title, description, amount, members }) => {
+  const navigate = useNavigate();
   const truncate = (str, limit) =>
     str.length > limit ? str.slice(0, limit) + "..." : str;
 
@@ -26,7 +29,10 @@ const GuildCard = ({ id, title, description, amount, members }) => {
           </p>
         </div>
         <div className="w-full py-3">
-          <button className="w-full bg-white text-black py-1.5 rounded-3xl hover:bg-transparent hover:border hover:border-white hover:text-white cursor-pointer text-sm md:textbase font-semibold ">
+          <button
+            className="w-full bg-white text-black py-1.5 rounded-3xl hover:bg-transparent hover:border hover:border-white hover:text-white cursor-pointer text-sm md:textbase font-semibold "
+            onClick={() => navigate(`/guilds/${id}`)}
+          >
             View Guild
           </button>
         </div>
