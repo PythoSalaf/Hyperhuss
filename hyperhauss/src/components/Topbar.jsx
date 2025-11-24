@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Topbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full bg-white py-2 text-black">
       <div className="w-[96%] mx-auto flex items-center justify-between">
@@ -18,8 +20,18 @@ const Topbar = () => {
         {/* <div className="">
           <p className="">animating slide</p>
         </div> */}
-        <div className="hidden md:block">
-          <div className="bg-black rounded-full h-5 w-5"></div>
+        <div className="">
+          <div className="bg-black rounded-full h-5 w-5 hidden md:block"></div>
+          <div
+            className="block md:hidden text-white cursor-pointer"
+            onClick={() => setIsOpen(!isOpen)}
+          >
+            {isOpen ? (
+              <IoClose className="text-white w-7 h-7 font-semibold" />
+            ) : (
+              <IoMenuOutline className="text-white w-7 h-7 font-semibold" />
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ export { default as SlideText } from "./SlideText";
 export { default as Chart } from "./Chart";
 export { default as Chat } from "./Chat";
 export { default as CreateGuild } from "./CreateGuild";
+export { default as JoinGuildModal } from "./JoinGuildModal";
 export { default as GuildPerformance } from "./GuildPerformance";
 export { default as ProposeTradeModal } from "./ProposeTradeModal";
 export { default as TopUpStakeModal } from "./TopUpStakeModal";

@@ -1,10 +1,21 @@
 import { useState } from "react";
-import { Chat, Modal, ProposeTradeModal, TopUpStakeModal } from "../components";
+import { useParams } from "react-router-dom";
+import {
+  Chat,
+  JoinGuildModal,
+  Modal,
+  ProposeTradeModal,
+  TopUpStakeModal,
+} from "../components";
+import { GuildData } from "../components/Dummy";
 
 const GuildDetails = () => {
   const [join, setJoin] = useState(false);
   const [openProposeModal, setOpenProposeModal] = useState(false);
   const [openTopupModal, setOpenTopupModal] = useState(false);
+  const [openJoinguildModal, setOpenJoinguildModal] = useState(false);
+  const { id } = useParams();
+  const guildData = GuildData.find((e) => e.id === Number(id));
   return (
     <div className="w-full">
       <h2 className="text-xl md:text-2xl font-semibold">Guild Details</h2>
@@ -17,7 +28,7 @@ const GuildDetails = () => {
                   Guild Name:
                 </h3>
                 <h3 className="text-sm md:text-base  font-semibold">
-                  Delta Sensitive
+                  {guildData?.title || "Unknow Guild"}
                 </h3>
               </div>
               <div className="w-full flex items-center justify-between my-3">
@@ -52,16 +63,16 @@ const GuildDetails = () => {
             <div className="w-[94%] mx-auto py-2">
               <div className="w-full border border-[#dadada] rounded-md h-28 py-2">
                 <p className="w-[95%] mx-auto text-xs md:text-sm lg:text-base">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Doloremque, nisi ab. Maiores inventore enim voluptas rem quasi
-                  numquam pariatur nemo quidem impedit, a, aliquam beatae minima
-                  quia nulla consequatur expedita.
+                  {guildData?.description}
                 </p>
               </div>
               <div className="mt-4 w-full">
                 {join ? (
                   <div className="flex items-center w-full gap-4">
-                    <button className="bg-green-600 text-white w-full py-1 text-sm md:text-base font-semibold rounded-3xl cursor-pointer">
+                    <button
+                      className="bg-green-600 text-white w-full py-1 text-sm md:text-base font-semibold rounded-3xl cursor-pointer"
+                      onClick={() => setOpenTopupModal(true)}
+                    >
                       Top up stake
                     </button>
                     <button className="bg-red-600 text-white w-full py-1 text-sm md:text-base font-semibold rounded-3xl cursor-pointer">
@@ -229,7 +240,19 @@ const GuildDetails = () => {
       </div>
       <div className="w-full border mt-10 border-[#dadada] rounded-xl py-2 mb-3">
         <div className="w-[94%] mx-auto py-2">
-          <h2 className="font-semibold text-xl md:text-2xl">Guild Chat Room</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="font-semibold text-xl md:text-2xl">
+              Guild Chat Room
+            </h2>
+            {/* {isMember && ( */}
+            <button
+              className="bg-[#2ecc71] text-white p-2 rounded-lg hover:bg-[#27ae60] cursor-pointer"
+              onClick={() => setOpenProposeModal(true)}
+            >
+              Propose Trade
+            </button>
+            {/* )} */}
+          </div>
           <div className="mt-6">
             <Chat />
           </div>
@@ -246,6 +269,14 @@ const GuildDetails = () => {
       <div className="">
         <Modal isOpen={openTopupModal} onClose={() => setOpenTopupModal(false)}>
           <TopUpStakeModal onClose={() => setOpenTopupModal(false)} />
+        </Modal>
+      </div>
+      <div className="">
+        <Modal
+          isOpen={openJoinguildModal}
+          onClose={() => setOpenJoinguildModal(false)}
+        >
+          <JoinGuildModal onClose={() => setOpenJoinguildModal(false)} />
         </Modal>
       </div>
     </div>

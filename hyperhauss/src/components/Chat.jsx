@@ -41,14 +41,6 @@ const Chat = () => {
       </div>
 
       <div className="mt-2 flex px-2 md:px-5 sticky bottom-0">
-        {/* {isMember && ( */}
-        {/* <button
-          className="bg-[#2ecc71] text-white p-2 rounded-l-lg hover:bg-[#27ae60] cursor-pointer"
-          // onClick={() => handleAction("propose")}
-        >
-          Propose Trade
-        </button> */}
-        {/* )} */}
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
