@@ -40,13 +40,13 @@ const Topbar = () => {
           <Link to="/" className="text-lg font-semibold ">
             Home
           </Link>
-          <Link to="/" className="text-lg font-semibold ">
+          <Link to="/guilds" className="text-lg font-semibold ">
             Guilds
           </Link>
-          <Link to="/" className="text-lg font-semibold ">
+          <Link to="/guilds/trade" className="text-lg font-semibold ">
             Trade
           </Link>
-          <Link to="/" className="text-lg font-semibold ">
+          <Link to="/guilds/dashboard" className="text-lg font-semibold ">
             Dashboard
           </Link>
           <div className="w-full flex items-center justify-center">
