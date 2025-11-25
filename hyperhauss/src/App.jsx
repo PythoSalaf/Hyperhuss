@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {
-  Dashboard,
+  // Dashboard,
   GuildDetails,
   GuildLayout,
   Guilds,
@@ -40,10 +40,10 @@ const routes = [
         path: "/guilds/trade",
         element: <Trade />,
       },
-      {
-        path: "/guilds/dashboard",
-        element: <Dashboard />,
-      },
+      // {
+      //   path: "/guilds/dashboard",
+      //   element: <Dashboard />,
+      // },
       {
         path: "/guilds/reward",
         element: <Reward />,
