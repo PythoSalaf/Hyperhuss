@@ -33,6 +33,27 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {toggle && (
+        <div className="absolute bg-white w-full h-[40vh] top-12.5 flex items-center py-4 text-black flex-col gap-y-6">
+          <Link to="/" className="text-lg font-semibold ">
+            Home
+          </Link>
+          <Link to="/" className="text-lg font-semibold ">
+            Guilds
+          </Link>
+          <Link to="/" className="text-lg font-semibold ">
+            Trade
+          </Link>
+          <Link to="/" className="text-lg font-semibold ">
+            Dashboard
+          </Link>
+          <div className="w-full flex items-center justify-center">
+            <button className="w-[70%] mx-auto bg-black text-white rounded-2xl py-1.5 font-semibold">
+              Login/Sign-in
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

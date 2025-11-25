@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { Heroicon } from "../assets";
 import { HowItWork, WhyJoin } from "../components/Dummy";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div className="w-full">
       <div className="w-[96%] md:w-[94%] h-full md:h-[80vh] mx-auto pt-0 md:pt-10 flex items-start justify-between flex-col md:flex-row gap-14">
@@ -18,7 +20,10 @@ const Home = () => {
             <button className="border cursor-pointer border-white rounded-3xl px-5 py-1 md:py-1.5">
               Get started
             </button>
-            <button className="bg-white cursor-pointer text-black rounded-3xl px-6 py-1 md:py-2">
+            <button
+              className="bg-white cursor-pointer text-black rounded-3xl px-6 py-1 md:py-2"
+              onClick={() => navigate("/guilds")}
+            >
               Join Guild
             </button>
           </div>

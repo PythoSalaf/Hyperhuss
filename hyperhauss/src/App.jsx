@@ -6,6 +6,9 @@ import {
   Guilds,
   Home,
   LandingLayout,
+  Leaderboard,
+  Reward,
+  Swap,
   Trade,
 } from "./pages";
 import { PageNotFound } from "./components";
@@ -40,6 +43,18 @@ const routes = [
       {
         path: "/guilds/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/guilds/reward",
+        element: <Reward />,
+      },
+      {
+        path: "/guilds/swap",
+        element: <Swap />,
+      },
+      {
+        path: "/guilds/leaderboard",
+        element: <Leaderboard />,
       },
     ],
   },
