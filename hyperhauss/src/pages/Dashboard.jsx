@@ -1,11 +1,11 @@
-import { GuildPerformance } from "../components";
+// import { GuildPerformance } from "../components";
 
-const Dashboard = () => {
-  return (
-    <div className="w-full">
-      <GuildPerformance />
-    </div>
-  );
-};
+// const Dashboard = () => {
+//   return (
+//     <div className="w-full">
+//       <GuildPerformance />
+//     </div>
+//   );
+// };
 
-export default Dashboard;
+// export default Dashboard;

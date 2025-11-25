@@ -18,10 +18,8 @@ const Guilds = () => {
           Create Guild
         </button>
       </div>
-      <div className="w-full my-5 border-2 border-dotted py-0.5 rounded-xl">
-        <div className="w-[95%] mx-auto">
-          <SlideText />
-        </div>
+      <div className="w-full my-5">
+        <SlideText />
       </div>
       <div className="">
         <h2 className="text-xl md:text-2xl font-semibold">Trending Guilds</h2>
