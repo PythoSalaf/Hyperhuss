@@ -14,7 +14,7 @@ const GuildCard = ({ id, title, description, amount, members }) => {
             access amount:
           </h3>
           <h3 className="text-green-600 text-base md:text-lg font-semibold">
-            {amount} HYPE
+            {amount} ETH
           </h3>
         </div>
         <div className="flex items-center justify-between">

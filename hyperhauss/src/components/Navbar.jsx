@@ -19,7 +19,7 @@ const Navbar = () => {
         </div>
         <div className="">
           <button className="hidden md:block bg-white rounded-3xl text-black px-4 py-1.5 transition ease-in-out duration-300 hover:text-white hover:bg-amber-700 cursor-pointer">
-            Login/signin
+            LogIn / Sign In
           </button>
           <div
             className="block md:hidden text-white cursor-pointer"

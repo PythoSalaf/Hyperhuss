@@ -33,13 +33,6 @@ const Sidebar = () => {
             <FaChartLine className="w-5 h-5" />
             Trade
           </NavLink>
-          <NavLink
-            to="/guilds/dashboard"
-            className={({ isActive }) => `${isActive ? active : inactive}`}
-          >
-            <MdDashboard />
-            Dashboard
-          </NavLink>
 
           <NavLink
             to="/guilds/reward"

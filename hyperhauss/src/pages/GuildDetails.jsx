@@ -19,9 +19,9 @@ const GuildDetails = () => {
   return (
     <div className="w-full">
       <h2 className="text-xl md:text-2xl font-semibold">Guild Details</h2>
-      <div className="w-full border border-dashed mt-5 py-3 rounded-lg">
+      <div className="w-full mt-5 py-3 rounded-lg">
         <div className="w-[97%] mx-auto flex items-start gap-4 md:gap-8 flex-col md:flex-row">
-          <div className="border border-dashed border-[#dadada] rounded-xl py-2 w-full">
+          <div className="border border-[#dadada] rounded-xl py-2 w-full">
             <div className="w-[94%] mx-auto">
               <div className="w-full flex items-center justify-between">
                 <h3 className="text-sm md:text-base  font-semibold">
@@ -49,7 +49,7 @@ const GuildDetails = () => {
                 <h3 className="text-sm md:text-base  font-semibold">
                   Guild Pool:
                 </h3>
-                <h3 className="text-sm md:text-base  font-semibold">10 HYPE</h3>
+                <h3 className="text-sm md:text-base  font-semibold">10 ETH</h3>
               </div>
               <div className="w-full flex items-center justify-between my-3">
                 <h3 className="text-sm md:text-base  font-semibold">
@@ -59,7 +59,7 @@ const GuildDetails = () => {
               </div>
             </div>
           </div>
-          <div className="w-full border border-dashed border-[#dadada] rounded-xl py-2">
+          <div className="w-full border border-[#dadada] rounded-xl py-2">
             <div className="w-[94%] mx-auto py-2">
               <div className="w-full border border-[#dadada] rounded-md h-28 py-2">
                 <p className="w-[95%] mx-auto text-xs md:text-sm lg:text-base">
@@ -92,7 +92,7 @@ const GuildDetails = () => {
           </div>
         </div>
       </div>
-      <div className="my-8 py-2 rounded-lg border border-[#dadada] w-full">
+      <div className="my-8 py-2 rounded-lg w-full">
         <div className="w-[96%] mx-auto">
           <h2 className="font-semibold text-xl md:text-2xl">All Members</h2>
           <div className="w-full my-4 border border-[#dadada] rounded-lg py-2 overflow-x-auto">
@@ -162,7 +162,7 @@ const GuildDetails = () => {
           </div>
         </div>
       </div>
-      <div className="my-5 py-2 rounded-lg border border-[#dadada] w-full">
+      <div className="my-5 py-2 rounded-lg w-full">
         <div className="w-[96%] mx-auto">
           <h2 className="font-semibold text-xl md:text-2xl">Trade Proposals</h2>
           <div className="w-full my-4 border border-[#dadada] rounded-lg py-2 overflow-x-auto">

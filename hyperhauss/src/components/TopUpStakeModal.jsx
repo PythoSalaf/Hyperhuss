@@ -11,11 +11,11 @@ const TopUpStakeModal = ({ onClose }) => {
       </div>
       <div className="mt-4">
         <div className="flex items-start flex-col ">
-          <label className="mb-2">Amount(HYPE)</label>
+          <label className="mb-2">Amount(ETH)</label>
           <input
             type="number"
             className="border border-white rounded-xl py-1 md:py-1.5 lg:py-2 w-full px-3 outline-0 placeholder:text-white placeholder:text-sm placeholder:font-semibold"
-            placeholder="Enter amount in HYPE "
+            placeholder="Enter amount in ETH "
           />
         </div>
       </div>

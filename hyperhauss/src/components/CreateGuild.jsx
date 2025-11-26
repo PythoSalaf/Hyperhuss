@@ -36,7 +36,7 @@ const CreateGuild = ({ onClose }) => {
         <div className="w-full">
           <input
             type="text"
-            placeholder="Entry Threshold (HYPE, e.g 0.01)"
+            placeholder="Entry Threshold (ETH, e.g 0.01)"
             className="border border-white rounded-xl py-1 md:py-2 w-full px-3 outline-0 placeholder:text-white placeholder:text-sm placeholder:font-semibold"
           />
         </div>
