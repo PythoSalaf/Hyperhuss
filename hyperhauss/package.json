@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@privy-io/react-auth": "^3.8.0",
     "@tailwindcss/vite": "^4.1.16",
     "framer-motion": "^12.23.24",
     "lightweight-charts": "^5.0.9",
