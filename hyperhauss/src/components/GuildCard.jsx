@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const GuildCard = ({ id, title, description, amount, members }) => {
+const GuildCard = ({ id, name, description, entryPoint, members }) => {
   const navigate = useNavigate();
   const truncate = (str, limit) =>
     str.length > limit ? str.slice(0, limit) + "..." : str;
@@ -8,13 +8,13 @@ const GuildCard = ({ id, title, description, amount, members }) => {
   return (
     <div className="w-[90%] md:w-full mx-auto border border-white rounded-lg py-2">
       <div className="w-[90%] mx-auto">
-        <h2 className="text-base md:text-lg font-semibold">{title} </h2>
+        <h2 className="text-base md:text-lg font-semibold">{name} </h2>
         <div className="my-3 flex items-center justify-between">
           <h3 className="capitalize text-base md:text-lg font-semibold">
             access amount:
           </h3>
           <h3 className="text-green-600 text-base md:text-lg font-semibold">
-            {amount} ETH
+            {entryPoint} ETH
           </h3>
         </div>
         <div className="flex items-center justify-between">

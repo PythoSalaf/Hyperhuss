@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { IoClose, IoMenuOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { usePrivy } from "@privy-io/react-auth";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const { login, authenticated, logout } = usePrivy();
+  console.log(authenticated, "Auth");
+
   return (
     <div className="w-full bg-black flex py-3 md:py-4 items-center border-b border-b-[#dadada] fixed">
       <div className="w-[96%] md:w-[94%] mx-auto flex items-center justify-between ">
@@ -18,9 +22,22 @@ const Navbar = () => {
           <Link to="">Dashboard</Link>
         </div>
         <div className="">
-          <button className="hidden md:block bg-white rounded-3xl text-black px-4 py-1.5 transition ease-in-out duration-300 hover:text-white hover:bg-amber-700 cursor-pointer">
-            LogIn / Sign In
-          </button>
+          {authenticated ? (
+            <button
+              className="hidden md:block bg-white rounded-3xl text-black px-4 py-1.5 transition ease-in-out duration-300 hover:text-white hover:bg-amber-700 cursor-pointer"
+              onClick={logout}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className="hidden md:block bg-white rounded-3xl text-black px-4 py-1.5 transition ease-in-out duration-300 hover:text-white hover:bg-amber-700 cursor-pointer"
+              onClick={login}
+            >
+              LogIn / Sign In
+            </button>
+          )}
+
           <div
             className="block md:hidden text-white cursor-pointer"
             onClick={() => setToggle(!toggle)}

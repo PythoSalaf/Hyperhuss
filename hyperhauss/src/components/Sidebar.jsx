@@ -1,11 +1,19 @@
 import { Link, NavLink } from "react-router-dom";
 import { AiFillProduct } from "react-icons/ai";
 import { FaAward, FaChartLine } from "react-icons/fa6";
-import { MdDashboard } from "react-icons/md";
 import { IoGiftSharp } from "react-icons/io5";
 import { PiSwapBold } from "react-icons/pi";
+import { usePrivy } from "@privy-io/react-auth";
 
 const Sidebar = () => {
+  const { user } = usePrivy();
+  const sliceAddress = (address) => {
+    if (!address) return "";
+    return `${address.slice(0, 6)}.....${address.slice(-5)}`;
+  };
+
+  console.log("USer", user);
+
   const active =
     "bg-white text-black py-1 px-4 md:text-base rounded-md lg:text-lg font-semibold flex items-center gap-x-3";
   const inactive =
@@ -59,7 +67,7 @@ const Sidebar = () => {
         <div className="mt-16">
           <div className="w-full bg-white text-black py-1.5 rounded-3xl shadow flex items-center justify-center">
             <p className="font-semibold md:text-sm lg:text-base">
-              0x8438.....09383
+              {sliceAddress(user?.wallet?.address) || "No wallet.."}
             </p>
           </div>
           <button className="cursor-pointer mt-6 border border-[#dadada] rounded-3xl w-full py-1.5 hover:bg-white hover:text-black">

@@ -11,7 +11,7 @@ import {
   Swap,
   Trade,
 } from "./pages";
-import { PageNotFound } from "./components";
+import { PageNotFound, ProtectedRoute } from "./components";
 
 const routes = [
   {
@@ -25,36 +25,19 @@ const routes = [
     ],
   },
   {
-    path: "/guilds",
-    element: <GuildLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        index: true,
-        element: <Guilds />,
-      },
-      {
-        path: "/guilds/:id",
-        element: <GuildDetails />,
-      },
-      {
-        path: "/guilds/trade",
-        element: <Trade />,
-      },
-      // {
-      //   path: "/guilds/dashboard",
-      //   element: <Dashboard />,
-      // },
-      {
-        path: "/guilds/reward",
-        element: <Reward />,
-      },
-      {
-        path: "/guilds/swap",
-        element: <Swap />,
-      },
-      {
-        path: "/guilds/leaderboard",
-        element: <Leaderboard />,
+        path: "/guilds",
+        element: <GuildLayout />,
+        children: [
+          { index: true, element: <Guilds /> },
+          { path: ":id", element: <GuildDetails /> },
+          { path: "trade", element: <Trade /> },
+          { path: "reward", element: <Reward /> },
+          { path: "swap", element: <Swap /> },
+          { path: "leaderboard", element: <Leaderboard /> },
+        ],
       },
     ],
   },

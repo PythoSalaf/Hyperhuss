@@ -12,7 +12,7 @@ const Home = () => {
             HyperSocial Trading Guilds
           </h1>
           <p className="my-8 text-lg md:text-xl">
-            Team up, trade smarter, and earn together on Hyperliquild. Form a
+            Team up, trade smarter, and earn together on HyperHaus. Form a
             guild, coordinate strategies, and share long-term rewards and
             benefit as a non-trader.
           </p>
