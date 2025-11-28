@@ -5,7 +5,7 @@ import { fetchGuildIds, createGuild } from "../features/contractSlice";
 import { useDispatch } from "react-redux";
 
 const CreateGuild = ({ onClose }) => {
-  const { authenticated, user } = usePrivy();
+  const { authenticated } = usePrivy();
   const dispatch = useDispatch();
   const { wallets } = useWallets();
   // Form state for createGuild
@@ -21,7 +21,7 @@ const CreateGuild = ({ onClose }) => {
   console.log("Authentic", authenticated);
 
   const handleCreateGuild = async () => {
-    if (!authenticated || !user?.wallet?.address || !wallets[0]) {
+    if (!authenticated || !wallets[0]?.address) {
       console.error("User not authenticated or wallet not connected");
       return;
     }
@@ -39,13 +39,13 @@ const CreateGuild = ({ onClose }) => {
 
     const guildData = {
       creatorName:
-        guildForm.creatorName || `Creator_${user?.wallet?.address.slice(0, 6)}`,
+        guildForm.creatorName || `Creator_${wallets[0].address.slice(0, 6)}`,
       guildName: guildForm.guildName,
       description: guildForm.description,
       memberCap: Number(guildForm.memberCap),
       entryThreshold: BigInt(Number(guildForm.entryThreshold) * 1e18), // Convert ETH to wei
       riskThreshold: Number(guildForm.riskThreshold),
-      wallet: user?.wallet[0],
+      wallet: wallets[0].address,
     };
 
     try {
