@@ -20,8 +20,49 @@ const CreateGuild = ({ onClose }) => {
 
   console.log("Authentic", authenticated);
 
+  // const handleCreateGuild = async () => {
+  //   if (!authenticated || !wallets[0]?.address) {
+  //     console.error("User not authenticated or wallet not connected");
+  //     return;
+  //   }
+
+  //   if (
+  //     !guildForm.guildName ||
+  //     !guildForm.description ||
+  //     !guildForm.memberCap ||
+  //     !guildForm.entryThreshold ||
+  //     !guildForm.riskThreshold
+  //   ) {
+  //     console.error("Missing required fields:", guildForm);
+  //     return;
+  //   }
+
+  //   const guildData = {
+  //     creatorName:
+  //       guildForm.creatorName || `Creator_${wallets[0].address.slice(0, 6)}`,
+  //     guildName: guildForm.guildName,
+  //     description: guildForm.description,
+  //     memberCap: Number(guildForm.memberCap),
+  //     entryThreshold: BigInt(Number(guildForm.entryThreshold) * 1e18), // Convert ETH to wei
+  //     riskThreshold: Number(guildForm.riskThreshold),
+  //     wallet: wallets[0].address,
+  //   };
+
+  //   try {
+  //     console.log("Creating guild with data:", guildData);
+  //     await dispatch(createGuild(guildData)).unwrap();
+  //     console.log("Guild created successfully");
+  //     dispatch(fetchGuildIds());
+  //   } catch (error) {
+  //     console.error("Failed to create guild:", error);
+  //   }
+  // };
+
   const handleCreateGuild = async () => {
-    if (!authenticated || !wallets[0]?.address) {
+    const walletAddress = wallets[0]?.address;
+    console.log("WalletAddress", walletAddress);
+
+    if (!authenticated || !walletAddress) {
       console.error("User not authenticated or wallet not connected");
       return;
     }
@@ -39,18 +80,24 @@ const CreateGuild = ({ onClose }) => {
 
     const guildData = {
       creatorName:
-        guildForm.creatorName || `Creator_${wallets[0].address.slice(0, 6)}`,
+        guildForm.creatorName || `Creator_${walletAddress.slice(0, 6)}`,
       guildName: guildForm.guildName,
       description: guildForm.description,
       memberCap: Number(guildForm.memberCap),
-      entryThreshold: BigInt(Number(guildForm.entryThreshold) * 1e18), // Convert ETH to wei
+      entryThreshold: BigInt(Number(guildForm.entryThreshold) * 1e18),
       riskThreshold: Number(guildForm.riskThreshold),
-      wallet: wallets[0].address,
     };
 
     try {
       console.log("Creating guild with data:", guildData);
-      await dispatch(createGuild(guildData)).unwrap();
+
+      await dispatch(
+        createGuild({
+          ...guildData,
+          walletAddress,
+        })
+      ).unwrap();
+
       console.log("Guild created successfully");
       dispatch(fetchGuildIds());
     } catch (error) {

@@ -2,8 +2,12 @@ import { Outlet, Navigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 
 const ProtectedRoute = () => {
-  const { authenticated } = usePrivy();
-  //   if (!authenticated) return <Navigate to="/" replace />;
+  const { ready, authenticated } = usePrivy();
+
+  if (!ready) return null;
+
+  // if (!authenticated) return <Navigate to="/" replace />;
+
   return <Outlet />;
 };
 
