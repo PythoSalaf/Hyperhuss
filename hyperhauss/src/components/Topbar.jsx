@@ -1,9 +1,20 @@
+import { usePrivy } from "@privy-io/react-auth";
 import { useState } from "react";
 import { IoClose, IoMenuOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Topbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { authenticated, login, logout } = usePrivy();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
   return (
     <div className="w-full bg-white py-3 text-black">
       <div className="w-[96%] mx-auto flex items-center justify-between">
@@ -50,9 +61,21 @@ const Topbar = () => {
             Dashboard
           </Link>
           <div className="w-full flex items-center justify-center">
-            <button className="w-[70%] mx-auto bg-white text-black rounded-2xl py-1.5 font-semibold">
-              Login/Sign-in
-            </button>
+            {authenticated ? (
+              <button
+                className="w-[70%] mx-auto bg-white text-black rounded-2xl py-1.5 font-semibold"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                className="w-[70%] mx-auto bg-white text-black rounded-2xl py-1.5 font-semibold"
+                onClick={login}
+              >
+                Login/Sign-in
+              </button>
+            )}
           </div>
         </div>
       )}
