@@ -1,12 +1,21 @@
 import { useState } from "react";
 import { IoClose, IoMenuOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(false);
+  const navigate = useNavigate();
   const { login, authenticated, logout } = usePrivy();
   console.log(authenticated, "Auth");
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
 
   return (
     <div className="w-full bg-black flex py-3 md:py-4 items-center border-b border-b-[#dadada] fixed">
@@ -65,9 +74,21 @@ const Navbar = () => {
             Dashboard
           </Link>
           <div className="w-full flex items-center justify-center">
-            <button className="w-[70%] mx-auto bg-black text-white rounded-2xl py-1.5 font-semibold">
-              Login/Sign-in
-            </button>
+            {authenticated ? (
+              <button
+                className="w-[70%] mx-auto bg-black text-white rounded-2xl py-1.5 font-semibold"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                className="w-[70%] mx-auto bg-black text-white rounded-2xl py-1.5 font-semibold"
+                onClick={login}
+              >
+                Login/Sign-in
+              </button>
+            )}
           </div>
         </div>
       )}

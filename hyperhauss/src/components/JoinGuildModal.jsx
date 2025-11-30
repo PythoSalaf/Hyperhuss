@@ -10,10 +10,12 @@ const JoinGuildModal = ({
   guildId,
   entryThreshold,
   guildName,
+  wallet,
 }) => {
   const [memberName, setMemberName] = useState("");
   const [formError, setFormError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  console.log("wallet Joinmodal", wallet);
 
   const handleSubmit = async () => {
     if (!memberName) {
@@ -25,16 +27,18 @@ const JoinGuildModal = ({
     try {
       setIsLoading(true);
       const balance = await publicClient.getBalance({
-        address: window.ethereum.selectedAddress,
+        address: wallet,
       });
-      const gasEstimate = BigInt(100000) * BigInt(20000000000); 
-      const totalCost = entryThreshold + formatEther(gasEstimate);
-      console.log(
-        "Wallet balance:",
-        balance.toString(),
-        "Total cost:",
-        totalCost.toString()
-      );
+
+      const gasEstimate = BigInt(100000) * BigInt(20000000000);
+
+      // Convert gasEstimate to wei-based BigInt
+      const totalCost = entryThreshold + gasEstimate;
+
+      console.log("balance:", balance.toString());
+      console.log("entryThreshold:", entryThreshold.toString());
+      console.log("gasEstimate:", gasEstimate.toString());
+      console.log("totalCost:", totalCost.toString());
       if (balance < totalCost) {
         setFormError(
           `Insufficient funds: need ~${Number(totalCost) / 1e18} ETH, have ${

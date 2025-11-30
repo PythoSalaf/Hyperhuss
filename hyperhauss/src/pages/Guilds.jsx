@@ -4,11 +4,7 @@ import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { useDispatch, useSelector } from "react-redux";
 import { CreateGuild, GuildCard, Modal, SlideText } from "../components";
 import { GuildData } from "../components/Dummy";
-import {
-  fetchGuildIds,
-  fetchGuildData,
-  createGuild,
-} from "../features/contractSlice";
+import { fetchGuildIds, fetchGuildData } from "../features/contractSlice";
 import { entryThresholdeth } from "../utils/formatters";
 
 const Guilds = () => {

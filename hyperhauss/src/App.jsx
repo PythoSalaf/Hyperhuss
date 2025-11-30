@@ -32,7 +32,7 @@ const routes = [
         element: <GuildLayout />,
         children: [
           { index: true, element: <Guilds /> },
-          { path: ":id", element: <GuildDetails /> },
+          { path: ":guildId", element: <GuildDetails /> },
           { path: "trade", element: <Trade /> },
           { path: "reward", element: <Reward /> },
           { path: "swap", element: <Swap /> },

@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AiFillProduct } from "react-icons/ai";
 import { FaAward, FaChartLine } from "react-icons/fa6";
 import { IoGiftSharp } from "react-icons/io5";
@@ -6,7 +6,17 @@ import { PiSwapBold } from "react-icons/pi";
 import { usePrivy } from "@privy-io/react-auth";
 
 const Sidebar = () => {
-  const { user } = usePrivy();
+  const { user, logout } = usePrivy();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
   const sliceAddress = (address) => {
     if (!address) return "";
     return `${address.slice(0, 6)}.....${address.slice(-5)}`;
@@ -70,7 +80,10 @@ const Sidebar = () => {
               {sliceAddress(user?.wallet?.address) || "No wallet.."}
             </p>
           </div>
-          <button className="cursor-pointer mt-6 border border-[#dadada] rounded-3xl w-full py-1.5 hover:bg-white hover:text-black">
+          <button
+            className="cursor-pointer mt-6 border border-[#dadada] rounded-3xl w-full py-1.5 hover:bg-white hover:text-black"
+            onClick={handleLogout}
+          >
             Log out
           </button>
         </div>

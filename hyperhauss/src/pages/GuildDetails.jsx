@@ -1,5 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { usePrivy, useWallets } from "@privy-io/react-auth";
+import { entryThresholdeth } from "../utils/formatters";
 import {
   Chat,
   JoinGuildModal,
@@ -7,15 +10,79 @@ import {
   ProposeTradeModal,
   TopUpStakeModal,
 } from "../components";
-import { GuildData } from "../components/Dummy";
+// import { GuildData } from "../components/Dummy";
+import {
+  joinGuild,
+  topUpStake,
+  proposeTrade,
+  voteProposal,
+  executeProposal,
+  withdrawStake,
+  fetchGuildData,
+} from "../features/contractSlice";
 
 const GuildDetails = () => {
-  const [join, setJoin] = useState(false);
+  const { wallets } = useWallets();
+  const { authenticated } = usePrivy();
+  const dispatch = useDispatch();
   const [openProposeModal, setOpenProposeModal] = useState(false);
   const [openTopupModal, setOpenTopupModal] = useState(false);
   const [openJoinguildModal, setOpenJoinguildModal] = useState(false);
-  const { id } = useParams();
-  const guildData = GuildData.find((e) => e.id === Number(id));
+  const [formError, setFormError] = useState("");
+  const { guildId } = useParams();
+  const { guilds, status, error } = useSelector((state) => state.contract);
+  const address = wallets[0]?.address;
+  const guildData = guilds.find((g) => g.guildId === guildId);
+
+  useEffect(() => {
+    if (authenticated && guildId) {
+      dispatch(fetchGuildData([guildId]));
+    }
+  }, [guildId, authenticated, dispatch]);
+
+  if (!authenticated) {
+    return <div className="p-4">Please log in to view guild details.</div>;
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="p-4">Error: {error || "Failed to load guild data"}</div>
+    );
+  }
+
+  if (!guildData) {
+    return <div className="p-4">Guild not found for ID: {guildId}</div>;
+  }
+
+  const { guild, proposals } = guildData;
+  const isMember = guild.memberAddresses
+    ?.map((addr) => addr.toLowerCase())
+    .includes(address?.toLowerCase());
+
+  const handleJoinGuild = async (guildId, memberName, entryThreshold) => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to join a guild");
+      return;
+    }
+
+    try {
+      await dispatch(
+        joinGuild({
+          guildId,
+          memberName,
+          entryThreshold: entryThreshold || BigInt(0),
+          wallet: wallets[0],
+        })
+      ).unwrap();
+      setFormError("");
+      setOpenJoinguildModal(false);
+      dispatch(fetchGuildData([guildId]));
+    } catch (error) {
+      console.error("Failed to join guild:", error);
+      // setFormError(error.message || "Failed to join guild");
+    }
+  };
+
   return (
     <div className="w-full">
       <h2 className="text-xl md:text-2xl font-semibold">Guild Details</h2>
@@ -28,34 +95,46 @@ const GuildDetails = () => {
                   Guild Name:
                 </h3>
                 <h3 className="text-sm md:text-base  font-semibold">
-                  {guildData?.title || "Unknow Guild"}
+                  {guild.guildName || "Unknown Guild"}
                 </h3>
               </div>
               <div className="w-full flex items-center justify-between my-3">
                 <h3 className="text-sm md:text-base  font-semibold">
                   Guild Creator:
                 </h3>
-                <h3 className="text-sm md:text-base  font-semibold">Pytho</h3>
+                <h3 className="text-sm md:text-base  font-semibold">
+                  {guild.ownerName || "Unknown"}
+                </h3>
               </div>
               <div className="w-full flex items-center justify-between ">
                 <h3 className="text-sm md:text-base  font-semibold">
                   Creator Address:
                 </h3>
                 <h3 className="text-sm md:text-base  font-semibold">
-                  0x8438.....09383
+                  {guild.ownerAddress
+                    ? `${guild.ownerAddress.slice(
+                        0,
+                        6
+                      )}...${guild.ownerAddress.slice(-4)}`
+                    : "N/A"}
                 </h3>
               </div>
               <div className="w-full flex items-center justify-between my-3">
                 <h3 className="text-sm md:text-base  font-semibold">
                   Guild Pool:
                 </h3>
-                <h3 className="text-sm md:text-base  font-semibold">10 ETH</h3>
+                <h3 className="text-sm md:text-base  font-semibold">
+                  {guild.pool ? entryThresholdeth(guild.pool) : "0"} ETH
+                </h3>
               </div>
               <div className="w-full flex items-center justify-between my-3">
                 <h3 className="text-sm md:text-base  font-semibold">
                   Risk Threshold:
                 </h3>
-                <h3 className="text-sm md:text-base  font-semibold">40%</h3>
+                <h3 className="text-sm md:text-base  font-semibold">
+                  {" "}
+                  {guild.risk_threshold ? guild.risk_threshold : "0"}%
+                </h3>
               </div>
             </div>
           </div>
@@ -63,11 +142,11 @@ const GuildDetails = () => {
             <div className="w-[94%] mx-auto py-2">
               <div className="w-full border border-[#dadada] rounded-md h-28 py-2">
                 <p className="w-[95%] mx-auto text-xs md:text-sm lg:text-base">
-                  {guildData?.description}
+                  {guild.descript || "No description available"}
                 </p>
               </div>
               <div className="mt-4 w-full">
-                {join ? (
+                {isMember ? (
                   <div className="flex items-center w-full gap-4">
                     <button
                       className="bg-green-600 text-white w-full py-1 text-sm md:text-base font-semibold rounded-3xl cursor-pointer"
@@ -82,7 +161,7 @@ const GuildDetails = () => {
                 ) : (
                   <button
                     className="w-full bg-white  text-black font-semibold border border-black text-sm md:text-base cursor-pointer rounded-3xl py-1 hover:bg-transparent hover:text-white hover:border hover:border-white "
-                    onClick={() => setJoin(true)}
+                    onClick={() => setOpenJoinguildModal(true)}
                   >
                     Join Guild
                   </button>
@@ -119,7 +198,7 @@ const GuildDetails = () => {
                   </th>
                 </tr>
               </thead>
-              {/* <tbody className="w-full text-center">
+              <tbody className="w-full text-center">
                 {guild.memberNames?.map((name, index) => (
                   <tr
                     key={index}
@@ -157,7 +236,7 @@ const GuildDetails = () => {
                     </td>
                   </tr>
                 )}
-              </tbody> */}
+              </tbody>
             </table>
           </div>
         </div>
@@ -189,7 +268,7 @@ const GuildDetails = () => {
                   </th>
                 </tr>
               </thead>
-              {/* <tbody className="w-full text-center">
+              <tbody className="w-full text-center">
                 {proposals?.map((proposal, index) => (
                   <tr
                     key={index}
@@ -233,7 +312,7 @@ const GuildDetails = () => {
                     </td>
                   </tr>
                 )}
-              </tbody> */}
+              </tbody>
             </table>
           </div>
         </div>
@@ -244,14 +323,14 @@ const GuildDetails = () => {
             <h2 className="font-semibold text-xl md:text-2xl">
               Guild Chat Room
             </h2>
-            {/* {isMember && ( */}
-            <button
-              className="bg-[#2ecc71] text-white p-2 rounded-lg hover:bg-[#27ae60] cursor-pointer"
-              onClick={() => setOpenProposeModal(true)}
-            >
-              Propose Trade
-            </button>
-            {/* )} */}
+            {isMember && (
+              <button
+                className="bg-[#2ecc71] text-white p-2 rounded-lg hover:bg-[#27ae60] cursor-pointer"
+                onClick={() => setOpenProposeModal(true)}
+              >
+                Propose Trade
+              </button>
+            )}
           </div>
           <div className="mt-6">
             <Chat />
@@ -276,7 +355,15 @@ const GuildDetails = () => {
           isOpen={openJoinguildModal}
           onClose={() => setOpenJoinguildModal(false)}
         >
-          <JoinGuildModal onClose={() => setOpenJoinguildModal(false)} />
+          <JoinGuildModal
+            onClose={() => setOpenJoinguildModal(false)}
+            onJoin={handleJoinGuild}
+            isOpen={openJoinguildModal}
+            guildId={guildId}
+            entryThreshold={guild.entryThreshold || BigInt(0)}
+            guildName={guild.guildName || "Unknown Guild"}
+            wallet={wallets[0].address}
+          />
         </Modal>
       </div>
     </div>
