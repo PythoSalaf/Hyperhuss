@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { usePrivy, useWallets } from "@privy-io/react-auth";
 import { entryThresholdeth } from "../utils/formatters";
@@ -10,7 +10,7 @@ import {
   ProposeTradeModal,
   TopUpStakeModal,
 } from "../components";
-// import { GuildData } from "../components/Dummy";
+
 import {
   joinGuild,
   topUpStake,
@@ -24,6 +24,7 @@ import {
 const GuildDetails = () => {
   const { wallets } = useWallets();
   const { authenticated } = usePrivy();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [openProposeModal, setOpenProposeModal] = useState(false);
   const [openTopupModal, setOpenTopupModal] = useState(false);
@@ -71,7 +72,7 @@ const GuildDetails = () => {
           guildId,
           memberName,
           entryThreshold: entryThreshold || BigInt(0),
-          wallet: wallets[0],
+          walletAddress: wallets[0]?.address,
         })
       ).unwrap();
       setFormError("");
@@ -80,6 +81,64 @@ const GuildDetails = () => {
     } catch (error) {
       console.error("Failed to join guild:", error);
       // setFormError(error.message || "Failed to join guild");
+    }
+  };
+
+  const handleProposeTrade = async (guildId, amount, description) => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to propose a trade");
+      return;
+    }
+
+    try {
+      await dispatch(
+        proposeTrade({
+          guildId,
+          amount,
+          description,
+          walletAddress: wallets[0]?.address,
+        })
+      ).unwrap();
+      setFormError("");
+      dispatch(fetchGuildData([guildId]));
+    } catch (error) {
+      console.error("Failed to propose trade:", error);
+      setFormError(error.message || "Failed to propose trade");
+      throw error;
+    }
+  };
+
+  const handleTopUpStake = async (guildId, amount) => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to top up stake");
+      return;
+    }
+
+    try {
+      await dispatch(
+        topUpStake({ guildId, amount, walletAddress: wallets[0]?.address })
+      ).unwrap();
+      setFormError("");
+      dispatch(fetchGuildData([guildId]));
+    } catch (error) {
+      console.error("Failed to top up stake:", error);
+      setFormError(error.message || "Failed to top up stake");
+    }
+  };
+
+  const handleWithdrawStake = async () => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to withdraw stake");
+      return;
+    }
+
+    try {
+      await dispatch(withdrawStake({ guildId, wallet: wallets[0] })).unwrap();
+      setFormError("");
+      navigate("/guilds");
+    } catch (error) {
+      console.error("Failed to withdraw stake:", error);
+      setFormError(error.message || "Failed to withdraw stake");
     }
   };
 
@@ -342,12 +401,24 @@ const GuildDetails = () => {
           isOpen={openProposeModal}
           onClose={() => setOpenProposeModal(false)}
         >
-          <ProposeTradeModal onClose={() => setOpenProposeModal(false)} />
+          <ProposeTradeModal
+            isOpen={openProposeModal}
+            onClose={() => setOpenProposeModal(false)}
+            guildId={guildId}
+            onPropose={handleProposeTrade}
+            riskThreshold={guild.risk_threshold}
+            pool={guild.pool}
+          />
         </Modal>
       </div>
       <div className="">
         <Modal isOpen={openTopupModal} onClose={() => setOpenTopupModal(false)}>
-          <TopUpStakeModal onClose={() => setOpenTopupModal(false)} />
+          <TopUpStakeModal
+            onClose={() => setOpenTopupModal(false)}
+            isOpen={openTopupModal}
+            onTopUp={handleTopUpStake}
+            guildId={guildId}
+          />
         </Modal>
       </div>
       <div className="">

@@ -24,21 +24,24 @@ const JoinGuildModal = ({
     }
 
     // Check wallet balance
+    if (!wallet) {
+      setFormError("Connect your wallet to continue");
+      return;
+    }
     try {
       setIsLoading(true);
       const balance = await publicClient.getBalance({
         address: wallet,
       });
 
-      const gasEstimate = BigInt(100000) * BigInt(20000000000);
-
-      // Convert gasEstimate to wei-based BigInt
-      const totalCost = entryThreshold + gasEstimate;
-
-      console.log("balance:", balance.toString());
-      console.log("entryThreshold:", entryThreshold.toString());
-      console.log("gasEstimate:", gasEstimate.toString());
-      console.log("totalCost:", totalCost.toString());
+      const gasEstimate = BigInt(100000) * BigInt(20000000000); // ~100k gas * 20 gwei
+      const totalCost = entryThreshold + formatEther(gasEstimate);
+      console.log(
+        "Wallet balance:",
+        balance.toString(),
+        "Total cost:",
+        totalCost.toString()
+      );
       if (balance < totalCost) {
         setFormError(
           `Insufficient funds: need ~${Number(totalCost) / 1e18} ETH, have ${
