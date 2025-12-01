@@ -94,7 +94,6 @@ export const fetchGuildData = createAsyncThunk(
   }
 );
 
-/** Helper to safely create a Wallet Client in the browser */
 function createSafeWalletClient() {
   if (typeof window === "undefined") {
     throw new Error("Window is not available");
@@ -108,10 +107,6 @@ function createSafeWalletClient() {
     transport: custom(window.ethereum),
   });
 }
-
-/**
- * WRITE THUNKS (all expect walletAddress to be passed from component)
- */
 
 export const createGuild = createAsyncThunk(
   "contract/createGuild",

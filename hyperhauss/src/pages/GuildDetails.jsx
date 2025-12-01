@@ -9,6 +9,7 @@ import {
   Modal,
   ProposeTradeModal,
   TopUpStakeModal,
+  VoteProposalModal,
 } from "../components";
 
 import {
@@ -28,7 +29,9 @@ const GuildDetails = () => {
   const dispatch = useDispatch();
   const [openProposeModal, setOpenProposeModal] = useState(false);
   const [openTopupModal, setOpenTopupModal] = useState(false);
+  const [openVoteProposalModal, setOpenVoteProposalModal] = useState(false);
   const [openJoinguildModal, setOpenJoinguildModal] = useState(false);
+  const [selectedProposalId, setSelectedProposalId] = useState(null);
   const [formError, setFormError] = useState("");
   const { guildId } = useParams();
   const { guilds, status, error } = useSelector((state) => state.contract);
@@ -126,6 +129,30 @@ const GuildDetails = () => {
     }
   };
 
+  const handleVoteProposal = async (guildId, proposalId, voteYes) => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to vote on a proposal");
+      return;
+    }
+
+    try {
+      await dispatch(
+        voteProposal({
+          guildId,
+          proposalId,
+          voteYes,
+          walletAddress: wallets[0]?.address,
+        })
+      ).unwrap();
+      setFormError("");
+      dispatch(fetchGuildData([guildId]));
+    } catch (error) {
+      console.error("Failed to vote on proposal:", error);
+      setFormError(error.message || "Failed to vote on proposal");
+      throw error;
+    }
+  };
+
   const handleWithdrawStake = async () => {
     if (!authenticated || !address || !wallets[0]) {
       setFormError("Please connect your wallet to withdraw stake");
@@ -133,12 +160,37 @@ const GuildDetails = () => {
     }
 
     try {
-      await dispatch(withdrawStake({ guildId, wallet: wallets[0] })).unwrap();
+      await dispatch(
+        withdrawStake({ guildId, walletAddress: wallets[0]?.address })
+      ).unwrap();
       setFormError("");
       navigate("/guilds");
     } catch (error) {
       console.error("Failed to withdraw stake:", error);
       setFormError(error.message || "Failed to withdraw stake");
+    }
+  };
+
+  const handleExecuteProposal = async (proposalId) => {
+    if (!authenticated || !address || !wallets[0]) {
+      setFormError("Please connect your wallet to execute a proposal");
+      return;
+    }
+
+    try {
+      await dispatch(
+        executeProposal({
+          proposalId,
+          guildId,
+          walletAddress: wallets[0]?.address,
+        })
+      ).unwrap();
+      setFormError("");
+      dispatch(fetchGuildData([guildId]));
+    } catch (error) {
+      console.error("Failed to execute proposal:", error);
+      setFormError(error.message || "Failed to execute proposal");
+      throw error;
     }
   };
 
@@ -392,7 +444,12 @@ const GuildDetails = () => {
             )}
           </div>
           <div className="mt-6">
-            <Chat />
+            <Chat
+              guildId={guildId}
+              // onProposeTrade={openProposeTradeModal}
+              onVoteProposal={openVoteProposalModal}
+              onExecuteProposal={handleExecuteProposal}
+            />
           </div>
         </div>
       </div>
@@ -434,6 +491,20 @@ const GuildDetails = () => {
             entryThreshold={guild.entryThreshold || BigInt(0)}
             guildName={guild.guildName || "Unknown Guild"}
             wallet={wallets[0].address}
+          />
+        </Modal>
+      </div>
+      <div className="">
+        <Modal
+          isOpen={openVoteProposalModal}
+          onClose={() => setOpenVoteProposalModal(false)}
+        >
+          <VoteProposalModal
+            isOpen={openVoteProposalModal}
+            onClose={() => setOpenVoteProposalModal(false)}
+            onVote={handleVoteProposal}
+            guildId={guildId}
+            proposalId={selectedProposalId}
           />
         </Modal>
       </div>

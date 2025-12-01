@@ -48,16 +48,32 @@ const Topbar = () => {
       </div>
       {isOpen && (
         <div className="absolute bg-black w-full h-[40vh] top-12.5 flex items-center py-4 text-white flex-col gap-y-6">
-          <Link to="/" className="text-lg font-semibold ">
+          <Link
+            to="/"
+            className="text-lg font-semibold "
+            onClick={() => setIsOpen(!isOpen)}
+          >
             Home
           </Link>
-          <Link to="/guilds" className="text-lg font-semibold ">
+          <Link
+            to="/guilds"
+            className="text-lg font-semibold "
+            onClick={() => setIsOpen(!isOpen)}
+          >
             Guilds
           </Link>
-          <Link to="/guilds/trade" className="text-lg font-semibold ">
+          <Link
+            to="/guilds/trade"
+            className="text-lg font-semibold "
+            onClick={() => setIsOpen(!isOpen)}
+          >
             Trade
           </Link>
-          <Link to="/guilds/dashboard" className="text-lg font-semibold ">
+          <Link
+            to="/guilds/dashboard"
+            className="text-lg font-semibold "
+            onClick={() => setIsOpen(!isOpen)}
+          >
             Dashboard
           </Link>
           <div className="w-full flex items-center justify-center">
