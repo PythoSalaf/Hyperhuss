@@ -38,14 +38,14 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <section className="w-full mt-12">
+      {/* <section className="w-full mt-12">
         <div className="w-[96%] md:w-[94%] mx-auto ">
           <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-semibold">
             Trending Guilds
           </h2>
           <div className="mt-16"></div>
         </div>
-      </section>
+      </section> */}
       <section className="w-full mt-12">
         <div className="w-[96%] md:w-[94%] mx-auto ">
           <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-semibold">
