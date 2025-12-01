@@ -4,6 +4,7 @@ import { addMessage } from "../features/contractSlice";
 import { entryThresholdeth } from "../utils/formatters";
 import { useWallets } from "@privy-io/react-auth";
 import Modal from "./Modal";
+import { analyzeTradeProposal } from "../utils/bedrock";
 
 const Chat = ({
   guildId,
@@ -19,6 +20,8 @@ const Chat = ({
   const [input, setInput] = useState("");
   const [analysisModal, setAnalysisModal] = useState(false);
   const [selectedProposal, setSelectedProposal] = useState(null);
+  const [aiAnalysis, setAiAnalysis] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const messagesEndRef = useRef(null);
   const address = wallets[0]?.address;
   const currentUser = address || "You";
@@ -86,6 +89,37 @@ const Chat = ({
     }
   };
 
+  const analyzeProposal = async (proposalData) => {
+    setIsAnalyzing(true);
+    setAiAnalysis("");
+    
+    try {
+      const result = await analyzeTradeProposal({
+        description: proposalData.descript,
+        amount: entryThresholdeth(proposalData.amount),
+        trader: proposalData.trader,
+        status: proposalData.fulfilled
+          ? "Fulfilled"
+          : proposalData.executed
+          ? "Executed"
+          : proposalData.approved
+          ? "Approved"
+          : "Pending",
+      });
+      
+      if (result.success) {
+        setAiAnalysis(result.analysis);
+      } else {
+        setAiAnalysis(`Failed to analyze proposal: ${result.error}`);
+      }
+    } catch (error) {
+      console.error("Error analyzing proposal:", error);
+      setAiAnalysis("Error analyzing proposal. Please check your AWS credentials.");
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
   const handleAction = (action, proposalId, proposalData) => {
     if (action === "propose") {
       onProposeTrade();
@@ -96,6 +130,7 @@ const Chat = ({
     } else if (action === "analyse") {
       setSelectedProposal(proposalData);
       setAnalysisModal(true);
+      analyzeProposal(proposalData);
     }
   };
 
@@ -232,10 +267,17 @@ const Chat = ({
                   ? "Approved"
                   : "Pending"}
               </p>
-              <div className="mt-4 p-3 bg-gray-800 rounded-lg">
-                <p className="text-sm text-gray-300">
-                  AI analysis will be displayed here...
-                </p>
+              <div className="mt-4 p-3 bg-gray-800 rounded-lg min-h-[100px]">
+                {isAnalyzing ? (
+                  <div className="flex items-center justify-center py-4">
+                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                    <p className="ml-3 text-sm text-gray-300">Analyzing proposal...</p>
+                  </div>
+                ) : aiAnalysis ? (
+                  <p className="text-sm text-gray-300 whitespace-pre-wrap">{aiAnalysis}</p>
+                ) : (
+                  <p className="text-sm text-gray-400 italic">Click Analyse to get AI insights...</p>
+                )}
               </div>
             </div>
           )}
