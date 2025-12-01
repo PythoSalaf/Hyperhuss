@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addMessage } from "../features/contractSlice";
 import { entryThresholdeth } from "../utils/formatters";
 import { useWallets } from "@privy-io/react-auth";
+import Modal from "./Modal";
 
 const Chat = ({
   guildId,
@@ -16,6 +17,8 @@ const Chat = ({
   const guildData = guilds.find((g) => g.guildId === guildId);
   const messages = guildData?.messages || [];
   const [input, setInput] = useState("");
+  const [analysisModal, setAnalysisModal] = useState(false);
+  const [selectedProposal, setSelectedProposal] = useState(null);
   const messagesEndRef = useRef(null);
   const address = wallets[0]?.address;
   const currentUser = address || "You";
@@ -83,15 +86,16 @@ const Chat = ({
     }
   };
 
-  const handleAction = (action, proposalId) => {
+  const handleAction = (action, proposalId, proposalData) => {
     if (action === "propose") {
       onProposeTrade();
     } else if (action === "vote") {
       onVoteProposal(proposalId);
     } else if (action === "execute") {
-      // if (window.confirm("Execute this trade proposal?")) {
       onExecuteProposal(proposalId);
-      // }
+    } else if (action === "analyse") {
+      setSelectedProposal(proposalData);
+      setAnalysisModal(true);
     }
   };
 
@@ -142,32 +146,40 @@ const Chat = ({
                     Votes: {msg.yesVotes}/{msg.totalVotes}
                   </p>
                   {isMember && (
-                    <div className="mt-2 flex gap-2">
-                      {!msg.approved &&
-                        !msg.executed &&
-                        !msg.fulfilled &&
-                        !msg.voters.includes(currentUser) && (
-                          <button
-                            className="bg-[#5b8eff] text-white rounded-lg py-1 px-2 text-sm"
-                            onClick={() => handleAction("vote", msg.proposalId)}
-                          >
-                            Vote
-                          </button>
-                        )}
-                      {msg.approved &&
-                        !msg.executed &&
-                        !msg.fulfilled &&
-                        msg.trader.toLowerCase() ===
-                          currentUser.toLowerCase() && (
-                          <button
-                            className="bg-[#2ecc71] text-white rounded-lg py-1 px-2 text-sm"
-                            onClick={() =>
-                              handleAction("execute", msg.proposalId)
-                            }
-                          >
-                            Execute
-                          </button>
-                        )}
+                    <div className="mt-2 flex justify-between items-center">
+                      <div className="flex gap-2">
+                        {!msg.approved &&
+                          !msg.executed &&
+                          !msg.fulfilled &&
+                          !msg.voters.includes(currentUser) && (
+                            <button
+                              className="bg-[#5b8eff] text-white rounded-lg py-1 px-2 text-sm"
+                              onClick={() => handleAction("vote", msg.proposalId)}
+                            >
+                              Vote
+                            </button>
+                          )}
+                        {msg.approved &&
+                          !msg.executed &&
+                          !msg.fulfilled &&
+                          msg.trader.toLowerCase() ===
+                            currentUser.toLowerCase() && (
+                            <button
+                              className="bg-[#2ecc71] text-white rounded-lg py-1 px-2 text-sm"
+                              onClick={() =>
+                                handleAction("execute", msg.proposalId)
+                              }
+                            >
+                              Execute
+                            </button>
+                          )}
+                      </div>
+                      <button
+                        className="bg-[#5b8eff] text-white rounded-lg py-1 px-2 text-sm"
+                        onClick={() => handleAction("analyse", msg.proposalId, msg)}
+                      >
+                        Analyse
+                      </button>
                     </div>
                   )}
                 </>
@@ -198,6 +210,43 @@ const Chat = ({
           Send
         </button>
       </div>
+
+      <Modal isOpen={analysisModal} onClose={() => setAnalysisModal(false)}>
+        <div className="text-white">
+          <h2 className="text-xl md:text-2xl font-semibold mb-4">AI Analysis</h2>
+          {selectedProposal && (
+            <div className="space-y-3">
+              <p className="text-sm">
+                <span className="font-semibold">Proposal:</span> {selectedProposal.descript}
+              </p>
+              <p className="text-sm">
+                <span className="font-semibold">Amount:</span> {entryThresholdeth(selectedProposal.amount)} ETH
+              </p>
+              <p className="text-sm">
+                <span className="font-semibold">Status:</span>{" "}
+                {selectedProposal.fulfilled
+                  ? "Fulfilled"
+                  : selectedProposal.executed
+                  ? "Executed"
+                  : selectedProposal.approved
+                  ? "Approved"
+                  : "Pending"}
+              </p>
+              <div className="mt-4 p-3 bg-gray-800 rounded-lg">
+                <p className="text-sm text-gray-300">
+                  AI analysis will be displayed here...
+                </p>
+              </div>
+            </div>
+          )}
+          <button
+            onClick={() => setAnalysisModal(false)}
+            className="mt-4 w-full bg-[#5b8eff] text-white rounded-lg py-2 px-4 hover:bg-[#4a7de8]"
+          >
+            Close
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
