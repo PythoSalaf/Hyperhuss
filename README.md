@@ -51,6 +51,7 @@ When a trade closes, the margin (profit or loss) is handled as follows:
 ## Using Kiro IDE & Amazon Q Developer
 I refactored the codebase and integrated an AI analytics modal for the guild members to get feedback about a proposal before they vote on it
 ![WhatsApp Image 2025-11-25 at 12 59 33_989dcc04](https://github.com/user-attachments/assets/b8a6d1c7-a56d-4a71-bbe8-943894de61ea)
-![WhatsApp Image 2025-11-25 at 12 59 33_4d843844](https://github.com/user-attachments/assets/2e8e1f85-2425-4178-9ec6-ee15cd3b7a4f)
+![WhatsApp Image 2025-11-25 at 12 41 27_726f3878](https://github.com/user-attachments/assets/1ec639a3-75f5-4d90-b17b-f97d064e5c41)
+
 
 
