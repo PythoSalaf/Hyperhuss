@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { MdClose } from "react-icons/md";
 const VoteProposalModal = ({
   isOpen,
   onClose,
@@ -27,39 +28,39 @@ const VoteProposalModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+    <div className="bg-black rounded-lg w-full ">
+      <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold mb-4">Vote on Proposal</h2>
-        {formError && (
-          <div className="text-red-500 text-sm mb-4">{formError}</div>
-        )}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-1">Vote</label>
-          <select
-            value={voteYes}
-            onChange={(e) => setVoteYes(e.target.value === "true")}
-            className="w-full border border-[#1e2a46] rounded-lg px-3 py-2 outline-none"
-          >
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-          </select>
+        <div
+          className="font-bold cursor-pointer"
+          onClick={onClose}
+          disabled={isLoading}
+        >
+          <MdClose className="w-5 h-5 md:w-6 md:h-6 " />
         </div>
-        <div className="flex justify-end gap-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-gray-300 text-black"
-            disabled={isLoading}
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 rounded-lg bg-[#1e2a46] text-white disabled:opacity-50"
-            disabled={isLoading}
-          >
-            {isLoading ? "Voting..." : "Submit Vote"}
-          </button>
-        </div>
+      </div>
+      {formError && (
+        <div className="text-red-500 text-sm mb-4">{formError}</div>
+      )}
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">Vote</label>
+        <select
+          value={voteYes}
+          onChange={(e) => setVoteYes(e.target.value === "true")}
+          className="w-full border border-[#dadada] text-white bg-black rounded-lg px-3 py-2 my-3 outline-none"
+        >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
+      </div>
+      <div className="flex justify-center">
+        <button
+          onClick={handleSubmit}
+          className="bg-white text-black px-8 py-1 md:py-1.5 text-sm md:text-base font-semibold rounded-3xl cursor-pointer border border-black hover:bg-transparent hover:text-white hover:border hover:border-white"
+          disabled={isLoading}
+        >
+          {isLoading ? "Voting..." : "Submit Vote"}
+        </button>
       </div>
     </div>
   );

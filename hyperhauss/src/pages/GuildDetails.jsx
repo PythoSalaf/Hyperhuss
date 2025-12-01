@@ -447,7 +447,10 @@ const GuildDetails = () => {
             <Chat
               guildId={guildId}
               // onProposeTrade={openProposeTradeModal}
-              onVoteProposal={openVoteProposalModal}
+              onVoteProposal={(proposalId) => {
+                setSelectedProposalId(proposalId);
+                setOpenVoteProposalModal(true);
+              }}
               onExecuteProposal={handleExecuteProposal}
             />
           </div>
