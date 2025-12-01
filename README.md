@@ -43,7 +43,7 @@ When a trade closes, the margin (profit or loss) is handled as follows:
 
 ### Tech Stack
 - Smart Contracts: Solidity (v0.8.28)
-- Testing & Deployment: Foundry / Hardhat
+- Testing & Deployment: Amazon Q Developer, Kiro IDE, Foundry 
 - Consensus & Governance: DAO‑style voting logic
 - Capital Pooling: Native token contributions tracked per guild
 - Vesting: Custom schedules per member stake
